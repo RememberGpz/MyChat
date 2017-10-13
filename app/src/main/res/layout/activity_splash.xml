@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoFrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/splash"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="290px"
+            android:layout_height="90px"
+            android:background="@drawable/background_btn_login"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40px"
+            android:layout_marginBottom="40px"
+            android:text="登  录"
+            android:textSize="35px"
+            android:textColor="@color/white"
+            />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="290px"
+            android:layout_height="90px"
+            android:background="@drawable/background_btn_register"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40px"
+            android:layout_marginBottom="40px"
+            android:text="注  册"
+            android:textSize="35px"
+            android:textColor="@color/black0"
+            />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoFrameLayout>
