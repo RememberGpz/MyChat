@@ -1,9 +1,11 @@
 package com.mychat.guopeizhen.mychat.ui.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -32,7 +34,7 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
 
     //下面是所有activity中可能出现的控件
     @Bind(R.id.appBar)
-    protected AppBarLayout appBarLayout;
+    protected AppBarLayout appBar;
     @Bind(R.id.flToolbar)
     public FrameLayout mToolbar;
     @Bind(R.id.ivToolbarNavigation)
@@ -60,11 +62,24 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
         setContentView(provideContentViewId());
         ButterKnife.bind(this);
 
+        setupAppbarAndToolbar();
+
+        initView();
+        initDataAndEvent();
+
 
     }
 
     //在setContentView()调用之前调用，可以设置WindowFeature(如：this.requestWindowFeature(Window.FEATURE_NO_TITLE);)
     public void init(){
+
+    }
+
+    public void initView(){
+
+    }
+
+    public void initDataAndEvent(){
 
     }
 
@@ -79,5 +94,65 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
      */
     protected boolean isToolbarCanBack() {
         return true;
+    }
+
+    /**
+    设置appbar和toolbar
+     */
+    private void setupAppbarAndToolbar(){
+        //如果该应用运行在android 5.0以上设备，设置标题栏的z轴高度
+        if (appBar!=null && Build.VERSION.SDK_INT>21){
+            appBar.setElevation(10.6f);
+        }
+        //如果界面中有使用toolbar，则使用toolbar替代actionbar
+        //默认不是使用NoActionBar主题，所以如果需要使用Toolbar，需要自定义NoActionBar主题后，在AndroidManifest.xml中对指定Activity设置theme
+//        if (mToolbar != null) {
+//            setSupportActionBar(mToolbar);
+//            if (isToolbarCanBack()) {
+//                ActionBar actionBar = getSupportActionBar();
+//                if (actionBar != null) {
+//                    actionBar.setDisplayHomeAsUpEnabled(true);
+//                }
+//            }
+//        }
+
+        mToolbarNavigation.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
+        mToolbarDivision.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
+        mToolbarNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mLlToolbarTitle.setPadding(isToolbarCanBack() ? 0 : 40, 0, 0, 0);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter!=null){
+            mPresenter.dettachView();
+        }
+    }
+
+
+    /*------------------ toolbar的一些视图操作 ------------------*/
+    public void setToolbarTitle(String title) {
+        mToolbarTitle.setText(title);
+    }
+
+    public void setToolbarSubTitle(String subTitle) {
+        mToolbarSubTitle.setText(subTitle);
+        mToolbarSubTitle.setVisibility(subTitle.length() > 0 ? View.VISIBLE : View.GONE);
     }
 }
