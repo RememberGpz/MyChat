@@ -1,6 +1,7 @@
 package com.mychat.guopeizhen.mychat.ui.base;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -156,7 +157,24 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
         startActivity(intent);
     }
 
+    //弹出等待dialog
+    public Dialog showWaitingDialog(String content){
+        hideWaitingDialog();
+        View view = View.inflate(this,R.layout.dialog_custom,null);
+        if (content!=null){
+            ((TextView)view.findViewById(R.id.tvTips)).setText(content);
+        }
+        customDialog = new CustomDialog(this,view,R.style.MyDialog);
+        return customDialog;
+    }
 
+    //隐藏等待dialog
+    public void hideWaitingDialog(){
+        if (customDialog!=null){
+            customDialog.dismiss();
+            customDialog = null;
+        }
+    }
     /*------------------ toolbar的一些视图操作 ------------------*/
     public void setToolbarTitle(String title) {
         mToolbarTitle.setText(title);
