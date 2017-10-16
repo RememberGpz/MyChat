@@ -4,6 +4,7 @@
     package="com.mychat.guopeizhen.mychat">
 
     <application
+        android:name=".app.baseApp.BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,7 +21,7 @@
             android:value="1280">
         </meta-data>
 
-
+        //引导页
         <activity android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter >
@@ -29,6 +30,16 @@
             </intent-filter>
 
         </activity>
+
+        //登录界面
+        <activity android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            />
+
+        //注册界面
+        <activity android:name=".ui.activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
+
 
     </application>
 

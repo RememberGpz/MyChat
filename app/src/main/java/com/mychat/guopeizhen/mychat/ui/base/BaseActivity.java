@@ -1,5 +1,7 @@
 package com.mychat.guopeizhen.mychat.ui.base;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -143,6 +145,15 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
         if (mPresenter!=null){
             mPresenter.dettachView();
         }
+    }
+
+    public void jumpToActivity(Intent intent){
+        startActivity(intent);
+    }
+
+    public void jumpToActivity(Class activity){
+        Intent intent = new Intent(this,activity);
+        startActivity(intent);
     }
 
 

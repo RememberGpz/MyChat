@@ -50,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="25px"
                     android:text="myChat"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     />
 
@@ -109,7 +110,7 @@
                     android:background="@null"
                     android:textColor="@color/white"
                     android:hint="搜索"
-                    android:textColorHint="gray1"
+                    android:textColorHint="@color/gray1"
                     android:textSize="14sp"
                     android:drawableLeft="@mipmap/ic_search"
                     android:drawablePadding="10dp"
