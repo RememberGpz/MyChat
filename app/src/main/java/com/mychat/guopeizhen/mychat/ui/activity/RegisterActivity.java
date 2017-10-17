@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mychat.guopeizhen.mychat.R;
 import com.mychat.guopeizhen.mychat.ui.base.BaseActivity;
@@ -14,38 +15,40 @@ import com.mychat.guopeizhen.mychat.ui.presenter.RegisterPresenter;
 import com.mychat.guopeizhen.mychat.ui.view.RegisterView;
 import com.mychat.guopeizhen.mychat.util.UIUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
 
 /**
  * Created by Administrator on 2017/10/16.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresenter> implements RegisterView {
-    @Bind(R.id.etNickName)
+public class RegisterActivity extends BaseActivity<RegisterView, RegisterPresenter> implements RegisterView {
+
+    @BindView(R.id.etNickName)
     EditText etNickName;
-    @Bind(R.id.vNick)
-    EditText vNick;
-
-    @Bind(R.id.etPhone)
+    @BindView(R.id.vNick)
+    View vNick;
+    @BindView(R.id.etPhone)
     EditText etPhone;
-    @Bind(R.id.vPhone)
+    @BindView(R.id.vPhone)
     View vPhone;
-
-    @Bind(R.id.etPassword)
+    @BindView(R.id.tvPassword)
+    TextView tvPassword;
+    @BindView(R.id.etPassword)
     EditText etPassword;
-    @Bind(R.id.ivSeePwd)
+    @BindView(R.id.ivSeePwd)
     ImageView ivSeePwd;
-    @Bind(R.id.vPassword)
+    @BindView(R.id.vPassword)
     View vPassword;
-
-    @Bind(R.id.etCode)
+    @BindView(R.id.tvCode)
+    TextView tvCode;
+    @BindView(R.id.etCode)
     EditText etCode;
-    @Bind(R.id.btnGetCode)
+    @BindView(R.id.btnGetCode)
     Button btnGetCode;
-    @Bind(R.id.vCode)
+    @BindView(R.id.vCode)
     View vCode;
-
-    @Bind(R.id.btnRegister)
+    @BindView(R.id.btnRegister)
     Button btnRegister;
 
     private boolean canSee = false;
@@ -69,8 +72,14 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
 
     @Override
     public void init() {
-        setToolbarTitle("注册");
+
         super.init();
+    }
+
+    @Override
+    public void initView() {
+        setToolbarTitle("注册");
+        super.initView();
     }
 
     @Override
@@ -83,9 +92,9 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         etNickName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
+                if (b) {
                     vNick.setBackgroundColor(UIUtil.getColor(R.color.green0));
-                }else {
+                } else {
                     vNick.setBackgroundColor(UIUtil.getColor(R.color.line));
                 }
             }
@@ -94,9 +103,9 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         etPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
+                if (b) {
                     vPhone.setBackgroundColor(UIUtil.getColor(R.color.green0));
-                }else {
+                } else {
                     vPhone.setBackgroundColor(UIUtil.getColor(R.color.line));
                 }
             }
@@ -105,9 +114,9 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
+                if (b) {
                     vPassword.setBackgroundColor(UIUtil.getColor(R.color.green0));
-                }else {
+                } else {
                     vPassword.setBackgroundColor(UIUtil.getColor(R.color.line));
                 }
             }
@@ -116,9 +125,9 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         etCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
+                if (b) {
                     vCode.setBackgroundColor(UIUtil.getColor(R.color.green0));
-                }else {
+                } else {
                     vCode.setBackgroundColor(UIUtil.getColor(R.color.line));
                 }
             }
@@ -127,10 +136,14 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         ivSeePwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!canSee){
+                if (!canSee) {
                     etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }else {
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    canSee=!canSee;
+                } else {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    canSee=!canSee;
                 }
 
             }
@@ -146,7 +159,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (btnRegister.isEnabled()){
+                if (btnRegister.isEnabled()) {
                     mPresenter.register();
                 }
             }
@@ -165,7 +178,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         return R.layout.activity_register;
     }
 
-    private boolean canRegister(){
+    private boolean canRegister() {
         int nickNameLength = etNickName.getText().toString().trim().length();
         int pwdLength = etPassword.getText().toString().trim().length();
         int phoneLength = etPhone.getText().toString().trim().length();
@@ -200,4 +213,6 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
     public Button getBtnCode() {
         return btnGetCode;
     }
+
+
 }

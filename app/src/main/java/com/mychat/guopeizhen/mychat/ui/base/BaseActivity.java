@@ -1,25 +1,27 @@
 package com.mychat.guopeizhen.mychat.ui.base;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mychat.guopeizhen.mychat.R;
 import com.mychat.guopeizhen.mychat.widget.CustomDialog;
+import com.zhy.autolayout.AutoFrameLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -36,20 +38,34 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
     private MaterialDialog materialDialog;
 
     //下面是所有activity中可能出现的控件
-    @Bind(R.id.appBar)
-    protected AppBarLayout appBar;
-    @Bind(R.id.flToolbar)
-    public FrameLayout mToolbar;
-    @Bind(R.id.ivToolbarNavigation)
-    public ImageView mToolbarNavigation;
-    @Bind(R.id.vToolbarDivision)
-    public View mToolbarDivision;
-    @Bind(R.id.llToolbarTitle)
-    public AutoLinearLayout mLlToolbarTitle;
-    @Bind(R.id.tvToolbarTitle)
-    public TextView mToolbarTitle;
-    @Bind(R.id.tvToolbarSubTitle)
-    public TextView mToolbarSubTitle;
+    @BindView(R.id.ivToolbarNavigation)
+    ImageView ivToolbarNavigation;
+    @BindView(R.id.vToolbarDivision)
+    View vToolbarDivision;
+    @BindView(R.id.tvToolbarTitle)
+    TextView tvToolbarTitle;
+    @BindView(R.id.tvToolbarSubTitle)
+    TextView tvToolbarSubTitle;
+    @BindView(R.id.llToolbarTitle)
+    AutoLinearLayout llToolbarTitle;
+    @BindView(R.id.ibToobarAdd)
+    ImageButton ibToobarAdd;
+    @BindView(R.id.vLine)
+    View vLine;
+    @BindView(R.id.llToolbarAddFriend)
+    AutoLinearLayout llToolbarAddFriend;
+    @BindView(R.id.etToolbarSearch)
+    EditText etToolbarSearch;
+    @BindView(R.id.llToolbarSearch)
+    AutoLinearLayout llToolbarSearch;
+    @BindView(R.id.btnToolbarSend)
+    Button btnToolbarSend;
+    @BindView(R.id.ibToolbarMore)
+    ImageButton ibToolbarMore;
+    @BindView(R.id.flToolbar)
+    AutoFrameLayout flToolbar;
+    @BindView(R.id.appBar)
+    AppBarLayout appBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +86,12 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
         initView();
         initDataAndEvent();
 
+
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
 
     }
 
@@ -119,15 +141,15 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
 //            }
 //        }
 
-        mToolbarNavigation.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
-        mToolbarDivision.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
-        mToolbarNavigation.setOnClickListener(new View.OnClickListener() {
+        ivToolbarNavigation.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
+        vToolbarDivision.setVisibility(isToolbarCanBack() ? View.VISIBLE : View.GONE);
+        ivToolbarNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        mLlToolbarTitle.setPadding(isToolbarCanBack() ? 0 : 40, 0, 0, 0);
+        llToolbarTitle.setPadding(isToolbarCanBack() ? 0 : 40, 0, 0, 0);
     }
 
     @Override
@@ -165,6 +187,7 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
             ((TextView)view.findViewById(R.id.tvTips)).setText(content);
         }
         customDialog = new CustomDialog(this,view,R.style.MyDialog);
+        customDialog.show();
         return customDialog;
     }
 
@@ -177,11 +200,11 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends AppComp
     }
     /*------------------ toolbar的一些视图操作 ------------------*/
     public void setToolbarTitle(String title) {
-        mToolbarTitle.setText(title);
+        tvToolbarTitle.setText(title);
     }
 
     public void setToolbarSubTitle(String subTitle) {
-        mToolbarSubTitle.setText(subTitle);
-        mToolbarSubTitle.setVisibility(subTitle.length() > 0 ? View.VISIBLE : View.GONE);
+        tvToolbarSubTitle.setText(subTitle);
+        tvToolbarSubTitle.setVisibility(subTitle.length() > 0 ? View.VISIBLE : View.GONE);
     }
 }

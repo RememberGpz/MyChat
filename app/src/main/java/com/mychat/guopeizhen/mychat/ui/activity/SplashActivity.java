@@ -3,13 +3,15 @@ package com.mychat.guopeizhen.mychat.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.AppBarLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mychat.guopeizhen.mychat.R;
@@ -17,9 +19,13 @@ import com.mychat.guopeizhen.mychat.model.cache.UserCache;
 import com.mychat.guopeizhen.mychat.ui.base.BaseActivity;
 import com.mychat.guopeizhen.mychat.ui.base.BasePresenter;
 import com.mychat.guopeizhen.mychat.util.UIUtil;
+import com.zhy.autolayout.AutoFrameLayout;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import cn.bmob.sms.BmobSMS;
 import kr.co.namee.permissiongen.PermissionGen;
 
 /**
@@ -27,22 +33,19 @@ import kr.co.namee.permissiongen.PermissionGen;
  */
 
 public class SplashActivity extends BaseActivity {
-    @Bind(R.id.btn_login)
-    Button btnLogin ;
-    @Bind(R.id.btn_register)
+
+
+
+    @BindView(R.id.btn_login)
+    Button btnLogin;
+    @BindView(R.id.btn_register)
     Button btnRegister;
-    @Bind(R.id.rlbtn)
+    @BindView(R.id.rlbtn)
     AutoRelativeLayout rlbtn;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
-    @Override
     public void init() {
+        BmobSMS.initialize(this,"cfbf1ec371ed270f91166ff6c59391d9");
         PermissionGen.with(this)
                 .addRequestCode(100)
                 .permissions(
@@ -60,10 +63,8 @@ public class SplashActivity extends BaseActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_SETTINGS
                 ).request();
-        super.init();
-
-        if (!TextUtils.isEmpty(UserCache.getToken())){
-            Intent intent = new Intent(this,MainActivity.class);
+        if (!TextUtils.isEmpty(UserCache.getToken())) {
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             jumpToActivity(intent);
         }
@@ -74,10 +75,9 @@ public class SplashActivity extends BaseActivity {
     public void initView() {
         StatusBarUtil.setColor(this, UIUtil.getColor(R.color.black0));
 
-        AlphaAnimation animation = new AlphaAnimation(0,1);
+        AlphaAnimation animation = new AlphaAnimation(0, 1);
         animation.setDuration(1000);
         rlbtn.setAnimation(animation);
-        super.initView();
     }
 
     @Override
@@ -86,7 +86,6 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 jumpToActivity(LoginActivity.class);
-                finish();
             }
         });
 
@@ -94,10 +93,8 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 jumpToActivity(RegisterActivity.class);
-                finish();
             }
         });
-        super.initDataAndEvent();
     }
 
     @Override
@@ -109,4 +106,6 @@ public class SplashActivity extends BaseActivity {
     protected int provideContentViewId() {
         return R.layout.activity_splash;
     }
+
+
 }

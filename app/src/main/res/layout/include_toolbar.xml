@@ -25,7 +25,7 @@
                 android:layout_width="40px"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_vertical_line"
-                android:layout_toRightOf="@+id/ivToolbarNavigation"
+                android:layout_toRightOf="@id/ivToolbarNavigation"
                 />
             <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/llToolbarTitle"
